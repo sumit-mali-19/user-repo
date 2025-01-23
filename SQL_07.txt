@@ -1,0 +1,307 @@
+--SET operator
+--1.UNION
+--2.UNION ALL
+--3.INTERSECT
+--4.EXCEPT
+
+--1.UNION
+--The Union operator is used to combine the result-set of two or more SELECT statements or Table.
+--The UNION operator selects distinct values by default.
+
+--Note: 
+--1.Each select statement or table within UNION must have the same number of columns.
+--2.The columns must have similar data types.
+--3.The columns is SELECT statement or table must be in the same order.
+
+--Example :
+--A =[1,2,3,4,5]
+--B= [3,4,5,6,7]
+
+--A union B =O/P =[1,2,3,4,5,6,7]
+
+create table set1 (S_ID int ,SNAME varchar(20))
+
+create table set2 (S_ID int ,SNAME varchar(20))
+
+insert into set1 values(1,'A')
+insert into set1 values(2,'B')
+insert into set1 values(3,'C')
+insert into set2 values(4,'D')
+insert into set2 values(5,'E')
+insert into set2 values(6,'F')
+insert into set2 values(7,'G')
+insert into set2 values(8,'H')
+insert into set2 values(9,'Hamesha')
+
+
+SELECT * FROM SET1 
+UNION 
+SELECT * FROM SET2 
+
+ --2.Union All
+--This operator is used to combine two or more tables using select statement when both the tables have same no. of columns.
+--Combine the two or more tables with all the values. it means that it will allow duplicate values in it.
+
+ select * from set1
+ Union  all
+ select * from set2
+
+ --3.Intersection
+--It will return only distinct (common records) values from two or more tables.
+
+ select * from set1
+ intersect
+ select * from set2
+
+
+--4.Except/minus
+--It will display the difference in records.
+--For ex: A = [1,2,3] and B= [3,4,5]
+--then A except B - O/P =[1,2]
+--then B except A - O/P =[4,5]
+
+ select * from set1
+ select * from set2
+ 
+ select * from set1
+ Except
+ select * from set2
+ 
+ select Sname from set2
+ Except
+ select Sname from set1
+
+----------------------------------------------------------------------
+
+
+
+
+
+--JOIN
+
+--Join is used to return a value from both the table which should have common column column in both the tables.
+--JOIN is the keyword is used in SQL statements to extract the data from two or more tables.
+
+--JOIN = CROSS PRODUCT + CONDITION 
+
+--Types Of joins
+--1.JOIN/Inner Join
+--2.Outer Join
+--		a.Left Join /Left Outer join
+--		b.Right Join /Right Outer join
+--		c.FULL Join /Full Outer join
+--3.SELF join 
+--4.Equi-join
+--5.Cross Join 
+
+--1.JOIN/Inner Join
+--This join return the only matching records from Table
+
+--Syntax:
+--select */Column_name(s) from Table_Name1
+--INNER JOIN /JOIN Table_Name2 
+--ON Table_Name1.Column_name =Table_Name2.Column_name
+
+
+      	
+
+
+Create Table A (Aid int, Name varchar(20))
+insert Into A values(1,'Sam')
+insert Into A values(2,'tom')
+insert Into A values(3,'harry')
+insert Into A values(4,'katich')
+insert Into A values(5,'kate')
+
+Create Table B (Bid int, Name varchar(20),Aid int)
+insert Into B values(11,'harry',3)
+insert Into B values(12,'katich',4)
+insert Into B values(13,'kate',5)
+insert Into B values(14,'mate',6)
+insert Into B values(15,'sat',7)
+
+
+select A.Aid,A.Name,B.Bid from A join B  ON A.Aid = B.Aid 
+select A.Aid,A.Name,B.Bid from A join B  ON A.Aid = B.Aid join C On B.Bid = C.Bid
+
+--Outer Join
+--1.Left Outer Join/Left Join
+--The LEFT JOIN returns all rows from the left side table, even if there are no matches in the right table.
+--
+--For Ex: Table A= [1,2,3,4,5] and Table B =[3,4,5,6,7] 
+--A left join B = [1,2,3,4,5]
+
+
+
+
+
+
+--A		B
+--1		NULL	
+--2		NULL
+--3		3
+--4		4
+--5		5
+
+--B left join A = [1,2,3,4,5]
+--B		A
+--3		3	
+--4		4
+--5		5
+--6		NULL
+--7		NULL
+
+--Syntax:
+--select */Column_name(s) from Table_Name1
+--Left JOIN  Table_Name2 
+--ON Table_Name1.Column_name =Table_Name2.Column_name
+
+select * from A
+select * from B
+
+select * from A left join B ON A.Aid = B.Aid 
+
+select * from B left join A ON A.Aid = B.Aid 
+
+--2.Left Outer Join/Left Join
+--The RIGHT JOIN returns all rows from the right side table, even if there are no matches in the right table.
+--It will display complete right table i.e B with all the matcing records from A.
+--For Ex: Table A= [1,2,3,4,5] and Table B =[3,4,5,6,7] 
+--A Right join B = [1,2,3,4,5]
+--A		B
+--3		3	
+--4		4
+--5		5
+--Null	6
+--NULL	7
+
+--B right join A = [1,2,3,4,5]
+--B		A
+--NULL	1	
+--NULL	2
+--3		3
+--4		4
+--5		5
+
+--Syntax:
+--select */Column_name(s) from Table_Name1
+--Right JOIN  Table_Name2 
+--ON Table_Name1.Column_name =Table_Name2.Column_name
+
+select * from A
+select * from B
+
+select * from A left join B ON A.Aid = B.Aid ;
+
+select * from B left join A ON A.Aid = B.Aid ;
+
+
+select * from A right join B ON A.Aid = B.Aid ;
+
+select * from B right join A ON A.Aid = B.Aid ;
+
+--3.FULL Outer Join/Left Join
+--The Full JOIN returns all rows from the both side table.
+--It will display complete table A and B.
+
+--For Ex: Table A= [1,2,3,4,5] and Table B =[3,4,5,6,7] 
+--A FULL join B = [1,2,3,4,5,6,7]
+--A		B
+--1		NULL	
+--2		NULL
+--3		3	
+--4		4
+--5		5
+--Null	6
+--NULL	7
+
+--Syntax:
+--select */Column_name(s) from Table_Name1
+--FULL JOIN  Table_Name2 
+--ON Table_Name1.Column_name =Table_Name2.Column_name
+
+select * from A Full outer join B ON A.Aid =B.Aid
+
+select A.Aid,B.Aid  from A Full outer join B ON A.Aid =B.Aid
+select * from A
+select * from B
+
+
+
+--4.Equi-Join(inner Join)
+
+--Equi_join is join but without using a join keyword we can join the two or more tables.
+--While writing Equi-join will use where clause
+
+select * from A ,B,C where A.Aid=B.aid and b.Bid =c.Bid
+--------------------------------------------
+
+------Equi_join 
+Equi_join  is join but without using a join keyword we can join the two or more tables.
+--While writing Equi-join will use where clause
+
+select * from A ,B,C where A.Aid=B.aid and b.Bid =c.Bid
+select * from A_1 ,B_1,C_1 where A_1.aid=B_1.aid and B_1.bid=C_1.bid;
+create table EMP_new (id int, name varchar (10),Company varchar (10),Work varchar (10));
+insert into EMP_new values (1,'Amit','Info','pune')
+insert into EMP_new values (2,'Puja','Tcs','Mumbai')
+insert into EMP_new values (3,'Poonam','Tech','Pune')
+insert into EMP_new values (4,'Abhi','Logic','Nagpur')
+insert into EMP_new values (5,'Kirti','Lim','Nagar')
+
+
+
+select * from EMP_new
+
+create table Job (salary int,base varchar (10),id int)
+
+insert into job values (10000,'Pune',1)
+insert into job values (20000,'Mumbai',3)
+insert into job values (30000,'Nagpur',4)
+insert into job values (40000,'Pune',5)
+insert into job values (35000,'Nagar',2)
+
+select * from Job;
+
+select * from EMP_new,job where EMP_new.id=job.id and EMP_new.work=job.base;
+Q. Find EMP name who worked in a department having location same as their address. (Equi Join)
+
+-----Cross Join 
+--Cross Join is nothing but a cartesian product.
+
+select * from A cross join B 
+
+select * from A
+select * from B
+--By using cross join we can create inner join by providing condition.
+select * from a cross join b where a.Aid =b.Aid
+select * from A_1 cross join B_1 cross join C_1
+
+
+---Self join
+--Joining a table with itself is nothing but self join.
+
+create table SELF_TEST_EMP(EID int, ENAME varchar(20),ManagerID varchar(20))
+
+insert into SELF_TEST_EMP values(1,'Shivam',2)
+insert into SELF_TEST_EMP values(2,'krishna',4)
+insert into SELF_TEST_EMP values(3,'meera',NULL)
+insert into SELF_TEST_EMP values(4,'radha',2)
+insert into SELF_TEST_EMP values(5,'bali',1)
+
+select * from SELF_TEST_EMP
+
+select * from SELF_TEST_EMP as T1 ,SELF_TEST_EMP as T2 where T1.ManagerID = T2.EID
+select T1.eid ,T1.Ename from SELF_TEST_EMP as T1 ,SELF_TEST_EMP as T2 where T1.ManagerID = T2.EID
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+

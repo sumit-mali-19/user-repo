@@ -1,0 +1,52 @@
+	--RANK,DENSE RANK AND ROW NUMBER
+
+--Rank() and DenseRank()
+--It will return a rank starting at 1 based on ordering of rows and imposed by order by clause.
+--Order by clause is required mandatory.
+--PARTITION BY Clause is optional.
+
+--Rank Syntax: RANK() OVER (ORDER BY col1,col2,....coln ASC/DESC [PARTITION BY Col1,col2...coln]) 
+
+--Dense_Rank Syntax: DENSE_RANK() OVER (ORDER BY col1,col2,....coln ASC/DESC [PARTITION BY Col1,col2...coln])
+
+--example
+--Marks =496,496,495,494,494,490
+--rank = 1,1,3,4,4,6
+--Dense_rank = 1,1,2,3,3,4
+
+--Example:
+--[sal] = [1000,1000,2000,3000,4000]
+--Rank() -- [1,1,3,4,5]   
+--Dense_rank() --[1,1,2,3,4] -- school level mark inside the class
+select * ,rank() over (order by salary) as rank1 from over_Test
+select * ,dense_rank() over (order by salary) as denserank from over_Test
+
+--Q.What is the diffrence between Rank() and Dense_Rank()
+--Rank() -- Rank function skips ranking if there is same value or number.
+--Dense_Rank() --It will not skips ranking if their is same value or number.
+
+
+
+---------------------------------------------------------------------
+
+--CTE (Common Table Expression)
+--It is temporary result set.
+--It will store the temporary results to make use of that in your main query.
+--It can be referred within a SELECT,INSERT,UPDATE and DELETE statements that immediately follows the CTE.
+--Only DML type of operation we can perform on CTE
+
+--Syntax 
+--With CTE_NAME (COL1, COL2,.....etc)
+--AS
+--CTE_Query
+
+
+with HighestSal as
+(select *,dense_rank() over (order by salary desc) as denserank1 from over_Test ) 
+select * from HighestSal where denserank1 = 3;
+
+
+with LowestSal as
+(select *,dense_rank() over (order by salary) as rank1 from over_Test ) 
+select * from LowestSal where rank1 = 1;
+--second and Third highest salary  by using dense Rank fuction
